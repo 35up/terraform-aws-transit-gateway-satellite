@@ -24,10 +24,6 @@ Support for VPN tunnels will be added soon.
 
 ### Credentials
 
-The module starts from the assumption that the `aws_login_profile` allows the
-user to assume the necessary IAM roles, as required, to make the necessary
-changes (and in the case of the `satellite` module, cross-account).
-
 See [this example][4] to first make sure that the credentials you want to use
 allow for cross-account actions.
 
