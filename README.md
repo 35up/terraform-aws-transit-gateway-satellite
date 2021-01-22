@@ -24,10 +24,6 @@ Support for VPN tunnels will be added soon.
 
 ### Credentials
 
-The module starts from the assumption that the `aws_login_profile` allows the
-user to assume the necessary IAM roles, as required, to make the necessary
-changes (and in the case of the `satellite` module, cross-account).
-
 See [this example][4] to first make sure that the credentials you want to use
 allow for cross-account actions.
 
@@ -87,7 +83,6 @@ this fact.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:-----:|
 | aws\_account\_id\_hub | AWS account number containing the TGW hub | `string` | n/a | yes |
-| aws\_login\_profile | Name of the AWS login profile as seen under ~/.aws/config used for assuming cross-account roles | `any` | n/a | yes |
 | role\_to\_assume\_hub | IAM role name to assume in the AWS account containing the TGW hub (eg. ASSUME-ROLE-HUB) | `string` | n/a | yes |
 | attachment\_subnet\_filters | List of maps selecting the subnet(s) where TGW will be attached | <pre>list(object({<br>    name   = string<br>    values = list(string)<br>  }))<br></pre> | <pre>[<br>  {<br>    "name": "tag:Name",<br>    "values": [<br>      "*private*"<br>    ]<br>  }<br>]<br></pre> | no |
 | aws\_account\_id\_satellite | AWS account number containing the TGW satellite | `string` | `""` | no |
