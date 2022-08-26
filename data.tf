@@ -7,10 +7,14 @@ data "aws_vpc" "this" {
   }
 }
 
-data "aws_subnet_ids" "this" {
+data "aws_subnets" "this" {
   provider = aws.satellite
   count    = local.create ? 1 : 0
-  vpc_id   = data.aws_vpc.this[0].id
+
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.this[0].id]
+  }
 
   dynamic "filter" {
     for_each = var.attachment_subnet_filters
@@ -21,10 +25,14 @@ data "aws_subnet_ids" "this" {
   }
 }
 
-data "aws_subnet_ids" "private" {
+data "aws_subnets" "private" {
   provider = aws.satellite
   count    = local.create ? 1 : 0
-  vpc_id   = data.aws_vpc.this[0].id
+
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.this[0].id]
+  }
 
   dynamic "filter" {
     for_each = var.private_subnet_filters
@@ -37,9 +45,9 @@ data "aws_subnet_ids" "private" {
 
 data "aws_route_table" "this" {
   provider = aws.satellite
-  count    = local.create ? length(data.aws_subnet_ids.private[0].ids) : 0
+  count    = local.create ? length(data.aws_subnets.private[0].ids) : 0
 
-  subnet_id = sort(data.aws_subnet_ids.private[0].ids)[count.index]
+  subnet_id = sort(data.aws_subnets.private[0].ids)[count.index]
 }
 
 data "aws_route_tables" "all" {
